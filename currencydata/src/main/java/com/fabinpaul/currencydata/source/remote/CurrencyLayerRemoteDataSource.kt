@@ -37,7 +37,7 @@ class CurrencyLayerRemoteDataSource private constructor() : CurrencyExchangeData
                         val currenciesJson = jsonResponse.optJSONObject("currencies")
                         val currencyCodesJson: JSONArray? = currenciesJson?.names()
                         val len = currencyCodesJson?.length() ?: 0
-                        for (i in 0..len) {
+                        for (i in 0 until len) {
                             val currencyCode = currencyCodesJson?.optString(i) ?: ""
                             val currencyInfo = currenciesJson?.optString(currencyCode) ?: ""
                             currencyList.add(Currency(currencyInfo, currencyCode))

@@ -37,6 +37,7 @@ android {
 
     buildFeatures {
         dataBinding = true
+        viewBinding true
     }
 }
 
@@ -57,7 +58,9 @@ dependencies {
     // Android Lifecycle
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0'
+
+    // Work Manager
+    implementation "androidx.work:work-runtime-ktx:2.4.0"
 
     // Data
     implementation project(path: ':currencydata')

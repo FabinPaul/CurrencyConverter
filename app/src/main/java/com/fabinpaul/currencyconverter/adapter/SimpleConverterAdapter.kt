@@ -17,7 +17,7 @@ class SimpleConverterAdapter<T : ViewModel>(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder =
         RecyclerViewHolder(
-            DataBindingUtil.inflate(LayoutInflater.from(parent.context), viewType, parent, false)
+            DataBindingUtil.inflate(LayoutInflater.from(parent.context), layoutRes, parent, false)
         )
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {

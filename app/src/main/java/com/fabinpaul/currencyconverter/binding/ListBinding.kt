@@ -12,10 +12,12 @@ object ListBinding {
     @JvmStatic
     fun <T : ViewModel> setSimpleAdapter(
         recyclerView: RecyclerView,
-        listOfViewModels: List<T>,
+        listOfViewModels: List<T>?,
         @LayoutRes itemLayoutRes: Int
     ) {
-        val adapter = SimpleConverterAdapter(listOfViewModels, itemLayoutRes)
-        recyclerView.adapter = adapter
+        listOfViewModels?.let {
+            val adapter = SimpleConverterAdapter(listOfViewModels, itemLayoutRes)
+            recyclerView.adapter = adapter
+        }
     }
 }

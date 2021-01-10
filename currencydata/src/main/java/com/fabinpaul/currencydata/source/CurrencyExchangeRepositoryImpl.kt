@@ -106,6 +106,7 @@ class CurrencyExchangeRepositoryImpl private constructor(
                 currencyExchangeRemoteDataSource.getExchangeRatesForUsd()
             if (exchangeRatesRemoteUpdateOutput is Output.Success) {
                 currencyExchangeLocalDataSource.updateExchangeRates(exchangeRatesRemoteUpdateOutput.data)
+                exchangeRatesUsd = exchangeRatesRemoteUpdateOutput.data
                 currencyMap = LinkedHashMap()
                 exchangeRatesRemoteUpdateOutput.data.forEach {
                     currencyMap?.put(it.currencyCodeTo, it.rate)

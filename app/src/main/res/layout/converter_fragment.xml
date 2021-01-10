@@ -29,6 +29,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <include
+            android:id="@+id/includeConverterContent"
             layout="@layout/include_converter_content"
             tools:viewModel="@{viewModel}" />
 
