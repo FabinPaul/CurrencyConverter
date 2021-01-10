@@ -1,8 +1,10 @@
 package com.fabinpaul.currencyconverter.binding
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 
 class ViewModelFactory<T>(val creator: () -> T) : ViewModelProvider.Factory {
 
@@ -11,7 +13,7 @@ class ViewModelFactory<T>(val creator: () -> T) : ViewModelProvider.Factory {
     }
 }
 
-inline fun <reified T : ViewModel> AppCompatActivity.getViewModel(noinline creator: (() -> T)? = null): T {
+inline fun <reified T : ViewModel> ViewModelStoreOwner.getViewModel(noinline creator: (() -> T)? = null): T {
     return if (creator == null)
         ViewModelProvider(this).get(T::class.java)
     else

@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
@@ -7,20 +7,25 @@ android {
     buildToolsVersion "30.0.1"
 
     defaultConfig {
-        applicationId "com.fabinpaul.currencyconverter"
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        buildConfigField "String", "ACCESS_KEY", accessKey
+        buildConfigField "int", "dbVersion", "1"
     }
 
     buildTypes {
         debug {
             manifestPlaceholders = [usesCleartextTraffic: "true"]
+            buildConfigField "String", "CURRENCY_LAYER_URL", "\"http://api.currencylayer.com\""
         }
         release {
+            buildConfigField "String", "CURRENCY_LAYER_URL", "\"https://api.currencylayer.com\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -34,37 +39,26 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    buildFeatures {
-        dataBinding = true
-    }
 }
 
 dependencies {
-    //implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.21"
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
-
-    // Android Support and UI
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation "androidx.fragment:fragment:1.2.5"
 
-    // Android Lifecycle
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0'
 
-    // Data
-    implementation project(path: ':currencydata')
+    // Network
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+//    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5'
+
+    // Database
     implementation 'androidx.room:room-runtime:2.2.6'
+    implementation 'androidx.room:room-ktx:2.2.6'
     kapt 'androidx.room:room-compiler:2.2.6'
 
-    // Test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

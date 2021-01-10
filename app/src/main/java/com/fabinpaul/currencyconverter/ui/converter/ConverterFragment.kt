@@ -7,6 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.fabinpaul.currencyconverter.R
+import com.fabinpaul.currencyconverter.binding.ViewModelFactory
+import com.fabinpaul.currencyconverter.binding.getViewModel
+import com.fabinpaul.currencydata.CurrencyExchangeDatabase
+import com.fabinpaul.currencydata.source.CurrencyExchangeRepositoryImpl
+import com.fabinpaul.currencydata.source.local.CurrencyExchangeLocalDataSource
+import com.fabinpaul.currencydata.source.remote.CurrencyLayerRemoteDataSource
 
 class ConverterFragment : Fragment() {
 
@@ -16,15 +22,26 @@ class ConverterFragment : Fragment() {
 
     private lateinit var viewModel: ConverterViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         return inflater.inflate(R.layout.converter_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ConverterViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewModel = getViewModel {
+            ConverterViewModel(
+                CurrencyExchangeRepositoryImpl.getInstance(
+                    CurrencyExchangeLocalDataSource.getInstance(
+                        CurrencyExchangeDatabase.getAppDatabase(requireContext())
+                            .currencyExchangeDao()
+                    ),
+                    CurrencyLayerRemoteDataSource.getInstance()
+                )
+            )
+        }
     }
 
 }
