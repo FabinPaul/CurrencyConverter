@@ -32,7 +32,7 @@ class ConverterFragment : Fragment() {
         }
 
         syncRequest =
-            PeriodicWorkRequestBuilder<SyncExchangeRateWorker>(30, TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<SyncExchangeRateWorker>(15, TimeUnit.MINUTES)
                 .build()
     }
 
